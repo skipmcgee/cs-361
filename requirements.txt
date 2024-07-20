@@ -1,0 +1,11 @@
+openmeteo-requests
+numpy
+pandas
+retry-requests
+requests-cache
+asyncio
+aiohttp
+python-dotenv
+click
+requests
+pyzmq
