@@ -7,6 +7,7 @@ import requests_cache
 import pandas as pd
 from retry_requests import retry
 import pprint
+import zmq
 
 
 def query_icon(query_lat: float, query_long: float, DEBUG: bool = False):
@@ -102,8 +103,33 @@ def query_icon(query_lat: float, query_long: float, DEBUG: bool = False):
         pprint.pp(hourly_dataframe.to_dict())
 
     print("OpenMeteo ICON query completed successfully")
-    return hourly_dataframe
+    return True, str(hourly_dataframe.to_dict())
 
+def setup_server():
+    context = zmq.Context()
+    socket = context.socket(zmq.REP)
+    socket.bind("tcp://*:5556")
+    print("**ICON SERVICE: Connecting to tcp://*:5556")
+    
+    while True:
+        #  Wait for request from client
+        message = socket.recv().decode('utf-8')
+        print(f"**ICON SERVICE: Received request: {message}")
+        lat = message.split(",")[0]
+        long = message.split(",")[1]
+        response, send_message = query_icon(lat, long, DEBUG=True)
+        if not response:
+            print("Error communicating to the OPENMETEO ICON API")
+            return
+        send_message = bytes(send_message, 'utf-8')
+
+        new_message = "**ICON SERVICE: Replying - " + str(send_message[:10])
+        print(f"{new_message}")
+
+        #  Send reply back to client
+        socket.send(send_message)
+        print("**ICON SERVICE: sent new message!")
 
 if __name__ == "__main__":
-    query_icon(query_lat=35.562, query_long=-106.226, DEBUG=True )
+    setup_server()
+    #query_icon(query_lat=35.562, query_long=-106.226, DEBUG=True )
