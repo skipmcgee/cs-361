@@ -19,6 +19,7 @@ def assign_tasks(user_count: int = 0, task_count: int = 0, DEBUG: bool = False):
 
 
 def server(ip: str = 'localhost', port: int = 5557, DEBUG: bool = False):
+    print("!! Initializing the TASK SERVER !!")
     context = zmq.Context()
     svc_string = "**TASK SERVER"
     socket = context.socket(zmq.REP)
@@ -32,17 +33,16 @@ def server(ip: str = 'localhost', port: int = 5557, DEBUG: bool = False):
         user_count = int(message.split(",")[0])
         task_count = int(message.split(",")[1])
         assignments = assign_tasks(user_count, task_count, DEBUG=DEBUG)
-        # now make csv for ease of use
+        # now make comma separated for ease of use
         assignments = str(assignments)[1:-1]
         assignments = assignments.replace(" ", "")
         if DEBUG:
             print(f"{svc_string}: parsed assignments into {assignments}")
-
+        # convert the message to bytes
         send_message = bytes(f"{assignments}", 'utf-8')
-
         new_message = f"{svc_string}: Replying - " + str(send_message[:10])
-        print(f"{new_message}")
-
+        if DEBUG:
+            print(f"{new_message}")
         #  Send reply back to client
         socket.send(send_message)
         print(f"{svc_string}: sent new message!")
