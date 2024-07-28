@@ -30,8 +30,15 @@ def server(ip: str = 'localhost', port: int = 5557, DEBUG: bool = False):
         message = socket.recv().decode('utf-8')
         if DEBUG:
             print(f"{svc_string}: Received request: {message}")
-        user_count = int(message.split(",")[0])
-        task_count = int(message.split(",")[1])
+        if "," not in str(message):
+            print(f"{svc_string}: Incorrectly formatted request received, mussing the ',' separator.")
+            continue
+        try:
+            user_count = int(message.split(",")[0])
+            task_count = int(message.split(",")[1])
+        except Exception as err:
+            print(f"{svc_string}: unable to complete user / task assignment due to error {err}")
+            continue
         assignments = assign_tasks(user_count, task_count, DEBUG=DEBUG)
         # now make comma separated for ease of use
         assignments = str(assignments)[1:-1]
