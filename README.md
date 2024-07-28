@@ -1,5 +1,7 @@
 # cs-361
 cli client for the cs-361 class
+implements microservices
+uses zeromq to communicate between them
 
 ### setup instructions
 + `python3 -m venv venv`
@@ -8,6 +10,6 @@ cli client for the cs-361 class
 + add your medeo blue token to a .env file using the variable name "meteo_blue_token"
 
 ### useage instructions
-- run each file in a teminal as a microservice
+- run each file in a terminal as a microservice
 - defaults should work for all servers
 - like: `python3 ui.py`
