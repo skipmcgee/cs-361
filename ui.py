@@ -10,11 +10,11 @@ breakout = 0
 context = zmq.Context()
 
 
-def talk_to_service(send_message: str, port: int = 5555):
+def talk_to_service(send_message: str, ip: str = 'localhost', port: int = 5555):
     #  Socket to talk to server
-    print(f"**UI: Connecting to tcp://localhost:{port}")
+    print(f"**UI: Connecting to tcp://{ip}:{port}")
     socket = context.socket(zmq.REQ)
-    socket.connect(f"tcp://localhost:{port}")
+    socket.connect(f"tcp://{ip}:{port}")
 
     send_message = bytes(send_message, 'utf-8')
 
