@@ -40,7 +40,7 @@ def server(ip: str = 'localhost', port: int = 5557, DEBUG: bool = False):
             print(f"{svc_string}: parsed assignments into {assignments}")
         # convert the message to bytes
         send_message = bytes(f"{assignments}", 'utf-8')
-        new_message = f"{svc_string}: Replying - " + str(send_message[:10])
+        new_message = f"{svc_string}: Replying - " + str(send_message[:10] + "...")
         if DEBUG:
             print(f"{new_message}")
         #  Send reply back to client
