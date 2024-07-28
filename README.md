@@ -12,7 +12,13 @@ uses zeromq to communicate between them
 ### useage instructions
 - run each file in a terminal as a microservice
 - defaults should work for all servers
-- like: `python3 ui.py`
+- run all microservices with the ui last
+- like: 
+    + terminal 1: `python3 openmeteo_icon_query.py`
+    + terminal 2: `python3 meteo_blue_query.py`
+    + terminal 3: `get_quote.py`
+    + terminal 4: `task_parser.py`
+    + terminal 5: `ui.py`
 
 ### microservice list:
 + CLI user interface

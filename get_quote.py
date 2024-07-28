@@ -150,4 +150,4 @@ def client(send_message: str, ip: str = 'localhost', port: int = 5558, DEBUG: bo
 
 
 if __name__ == '__main__':
-    client(send_message='Please quote me', DEBUG=True)
+    server(DEBUG=True)

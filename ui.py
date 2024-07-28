@@ -80,7 +80,9 @@ def my_ui(lat_resp = False, long_resp = False, model_resp = False, DEBUG: bool =
     # only prompt at first run
     if not lat_resp and not long_resp and not model_resp:
         greet_user()
-
+        # provide and ispirational quote:
+        print("Here is an inspirational quote for motivation:")
+        print(talk_to_service('Please quote me', 5558))
     if not lat_resp or not long_resp:
         lat_resp, long_resp = lat_long()
         if not lat_resp or not long_resp:
