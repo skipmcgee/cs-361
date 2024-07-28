@@ -27,7 +27,7 @@ def talk_to_service(send_message: str, ip: str = 'localhost', port: int = 5555, 
         print(f"**UI: waiting for response to request")
         
     #  Get the reply.
-    message = socket.recv()
+    message = socket.recv().decode('utf-8')
     if DEBUG:
         print(f"**UI: Received reply: {message}")
 
@@ -86,7 +86,7 @@ def my_ui(lat_resp = False, long_resp = False, model_resp = False, DEBUG: bool =
         # provide and ispirational quote:
         print("Here is an inspirational quote for motivation:")
         quote = talk_to_service(send_message='Please quote me', port=5558)
-        print(f'"{str(quote.decode("utf-8"))}"')
+        print(f'"{quote}"')
     if not lat_resp or not long_resp:
         lat_resp, long_resp = lat_long()
         if not lat_resp or not long_resp:
@@ -99,18 +99,23 @@ def my_ui(lat_resp = False, long_resp = False, model_resp = False, DEBUG: bool =
             sys.exit(0)
 
     if model_resp == 'A':
-        print(talk_to_service(f"{lat_resp},{long_resp}", 5556))
+        print(talk_to_service(send_message=f"{lat_resp},{long_resp}", port=5556, DEBUG=DEBUG))
     elif model_resp == 'B':
-        print(talk_to_service(f"{lat_resp},{long_resp}", 5555))
+        print(talk_to_service(send_message=f"{lat_resp},{long_resp}", port=5555, DEBUG=DEBUG))
 
     next_resp = pick_next()
     print("UI: next response is " + next_resp)
     if next_resp == 'A':
-        print("Change Location")
-        my_ui(False, False, model_resp)
+        if DEBUG:
+            print("Change Location selected")
+        my_ui(lat_resp=False, long_resp=False, model_resp=model_resp, DEBUG=DEBUG)
     elif next_resp == "B":
-        print("Change Model")
-        my_ui(lat_resp, long_resp, False)
+        new_model = 'B'
+        if model_resp == 'B':
+            new_model = 'A'
+        if DEBUG:
+            print("Change Model selected")
+        my_ui(lat_resp=lat_resp, long_resp=long_resp, model_resp=new_model, DEBUG=DEBUG)
 
 
 def wrapper():

@@ -36,16 +36,17 @@ def query_mblue(query_lat, query_long, query_alt: int = 2132, DEBUG: bool = Fals
     return True, res.json()
 
 
-def setup_server():
+def setup_server(ip: str = 'localhost', port: int = 5555, DEBUG: bool = False):
     context = zmq.Context()
     socket = context.socket(zmq.REP)
-    socket.bind("tcp://*:5555")
-    print("**MBLUE SERVICE: Connecting to tcp://*:5555")
+    socket.bind(f"tcp://{ip}:{port}")
+    print(f"**MBLUE SERVICE: Connecting to tcp://{ip}:{port}")
     
     while True:
         #  Wait for request from client
         message = socket.recv().decode('utf-8')
-        print(f"**MBLUE SERVICE: Received request: {message}")
+        if DEBUG:
+            print(f"**MBLUE SERVICE: Received request: {message}")
         lat = message.split(",")[0]
         long = message.split(",")[1]
         response, send_message = query_mblue(lat, long, DEBUG=True)
@@ -59,8 +60,9 @@ def setup_server():
 
         #  Send reply back to client
         socket.send(send_message)
-        print("**MBLUE SERVICE: sent new message!")
+        if DEBUG:
+            print("**MBLUE SERVICE: sent new message!")
 
 if __name__ == "__main__":
-    setup_server()
+    setup_server(DEBUG=True)
     #query_mblue(query_lat=35.562, query_long=-106.226, query_alt=2132, DEBUG=True )

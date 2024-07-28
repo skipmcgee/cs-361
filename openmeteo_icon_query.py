@@ -105,16 +105,17 @@ def query_icon(query_lat: float, query_long: float, DEBUG: bool = False):
     print("OpenMeteo ICON query completed successfully")
     return True, str(hourly_dataframe.to_dict())
 
-def setup_server():
+def setup_server(ip: str = 'localhost', port: int = 5556, DEBUG: bool = False):
     context = zmq.Context()
     socket = context.socket(zmq.REP)
-    socket.bind("tcp://*:5556")
-    print("**ICON SERVICE: Connecting to tcp://*:5556")
+    socket.bind(f"tcp://{ip}:{port}")
+    print(f"**ICON SERVICE: Connecting to tcp://{ip}:{port}")
     
     while True:
         #  Wait for request from client
         message = socket.recv().decode('utf-8')
-        print(f"**ICON SERVICE: Received request: {message}")
+        if DEBUG:
+            print(f"**ICON SERVICE: Received request: {message}")
         lat = message.split(",")[0]
         long = message.split(",")[1]
         response, send_message = query_icon(lat, long, DEBUG=True)
@@ -124,12 +125,14 @@ def setup_server():
         send_message = bytes(send_message, 'utf-8')
 
         new_message = "**ICON SERVICE: Replying - " + str(send_message[:10])
-        print(f"{new_message}")
+        if DEBUG:
+            print(f"{new_message}")
 
         #  Send reply back to client
         socket.send(send_message)
-        print("**ICON SERVICE: sent new message!")
+        if DEBUG:
+            print("**ICON SERVICE: sent new message!")
 
 if __name__ == "__main__":
-    setup_server()
+    setup_server(DEBUG=True)
     #query_icon(query_lat=35.562, query_long=-106.226, DEBUG=True )
