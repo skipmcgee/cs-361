@@ -23,22 +23,26 @@ def server(ip: str = 'localhost', port: int = 5557, DEBUG: bool = False):
     context = zmq.Context()
     svc_string = "**TASK SERVER"
     socket = context.socket(zmq.REP)
+    socket.setsockopt(zmq.LINGER, 100)
     socket.bind(f"tcp://{ip}:{port}")
     print(f"{svc_string}: Connecting to tcp://{ip}:{port}")
     while True:
         #  Wait for request from client
-        message = socket.recv().decode('utf-8')
-        if DEBUG:
-            print(f"{svc_string}: Received request: {message}")
-        if "," not in str(message):
-            print(f"{svc_string}: Incorrectly formatted request received, mussing the ',' separator.")
-            continue
         try:
+            message = socket.recv(copy=True).decode('utf-8')
+            if DEBUG:
+                print(f"{svc_string}: Received request: {message}")
+            if "," not in str(message):
+                print(f"{svc_string}: Incorrectly formatted request received, missing the ',' separator.")
             user_count = int(message.split(",")[0])
             task_count = int(message.split(",")[1])
         except Exception as err:
-            print(f"{svc_string}: unable to complete user / task assignment due to error {err}")
-            continue
+            formatted_err = str(err).strip()
+            formatted_err = formatted_err.replace("\n", "")
+            print(f"{svc_string}: unable to complete user / task assignment due to error {formatted_err}")
+            socket.close()
+            server(ip=ip, port=port, DEBUG=DEBUG)
+            break
         assignments = assign_tasks(user_count, task_count, DEBUG=DEBUG)
         # now make comma separated for ease of use
         assignments = str(assignments)[1:-1]
@@ -52,7 +56,7 @@ def server(ip: str = 'localhost', port: int = 5557, DEBUG: bool = False):
             print(f"{new_message}")
         #  Send reply back to client
         socket.send(send_message)
-        print(f"{svc_string}: sent new message!")
+        print(f"{svc_string}: sent a message!")
 
 
 context = zmq.Context()
