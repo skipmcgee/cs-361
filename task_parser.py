@@ -78,13 +78,11 @@ def client(send_message: str, ip: str = 'localhost', port: int = 5557, DEBUG: bo
     message = socket.recv()
     if DEBUG:
         print(f"{client_string}: Received reply: {message}")
-    message = str(message)
+    message = str(message.decode('utf-8'))
     # format the message into an array / list
-    # start by removing bytes conversion stuffs
-    message = message[2:-1]
     message = message.split(",")
     if DEBUG:
-        print(f"{client_string}: formatted message into type {type(message)} as: {str(message)}")
+        print(f"{client_string}: received message {str(message)}")
     return message
 
 

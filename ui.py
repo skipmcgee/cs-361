@@ -10,23 +10,26 @@ breakout = 0
 context = zmq.Context()
 
 
-def talk_to_service(send_message: str, ip: str = 'localhost', port: int = 5555):
+def talk_to_service(send_message: str, ip: str = 'localhost', port: int = 5555, DEBUG: bool = False):
     #  Socket to talk to server
-    print(f"**UI: Connecting to tcp://{ip}:{port}")
+    if DEBUG:
+        print(f"**UI: Connecting to tcp://{ip}:{port}")
     socket = context.socket(zmq.REQ)
     socket.connect(f"tcp://{ip}:{port}")
 
     send_message = bytes(send_message, 'utf-8')
 
     # Send a message
-    print(f"**UI: Sending message '{send_message}'")
+    if DEBUG:
+        print(f"**UI: Sending message '{send_message}'")
     socket.send(send_message)
-
-    print(f"**UI: waiting for response to request")
+    if DEBUG:
+        print(f"**UI: waiting for response to request")
         
     #  Get the reply.
     message = socket.recv()
-    print(f"**UI: Received reply: {message}")
+    if DEBUG:
+        print(f"**UI: Received reply: {message}")
 
     return message
 
@@ -82,7 +85,8 @@ def my_ui(lat_resp = False, long_resp = False, model_resp = False, DEBUG: bool =
         greet_user()
         # provide and ispirational quote:
         print("Here is an inspirational quote for motivation:")
-        print(talk_to_service('Please quote me', 5558))
+        quote = talk_to_service(send_message='Please quote me', port=5558)
+        print(str(quote.decode('utf-8')))
     if not lat_resp or not long_resp:
         lat_resp, long_resp = lat_long()
         if not lat_resp or not long_resp:
