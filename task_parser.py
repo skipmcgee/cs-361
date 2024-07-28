@@ -6,7 +6,7 @@ import random
 def assign_tasks(user_count: int = 0, task_count: int = 0, DEBUG: bool = False):
     assignment_list = []
     if user_count == 0:
-        assignment_list = [ 0, 0, ]
+        assignment_list = [ 0, ]
         return assignment_list
     for user in range(user_count):
         index_assignment = random.randint(0,task_count)
