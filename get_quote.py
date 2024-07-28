@@ -16,10 +16,10 @@ def server(ip: str = 'localhost', port: int = 5558, DEBUG: bool = False):
         if DEBUG:
             print(f"{svc_string}: Received request: {message}")
 
-    
+
         # **** add your server logic here ****
 
-        
+
         # convert the message to bytes
         send_message = bytes(f"{assignments}", 'utf-8')
         new_message = f"{svc_string}: Replying - " + str(send_message[:10])
@@ -28,7 +28,7 @@ def server(ip: str = 'localhost', port: int = 5558, DEBUG: bool = False):
         #  Send reply back to client
         socket.send(send_message)
         print(f"{svc_string}: sent new message!")
-    """
+"""
 
 context = zmq.Context()
 
