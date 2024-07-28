@@ -33,7 +33,7 @@ def talk_to_service(send_message: str, port: int = 5555):
 
 def greet_user():
     print(s.user_welcome)
-    time.sleep(1)
+    time.sleep(2)
 
 
 def lat_long():
