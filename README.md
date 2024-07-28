@@ -7,7 +7,7 @@ uses zeromq to communicate between them
 + `python3 -m venv venv`
 + `source venv/bin/activate` (platform dependent)
 + `python3 -m pip install -r requirements.txt`
-+ add your medeo blue token to a .env file using the variable name "meteo_blue_token"
++ add your free meteo blue token to a .env file using the variable name "meteo_blue_token"
 
 ### useage instructions
 - run each file in a terminal as a microservice
