@@ -3,13 +3,18 @@ import zmq
 import random
 
 
-def assign_tasks(user_count: int = 0, task_count: int = 0):
+def assign_tasks(user_count: int = 0, task_count: int = 0, DEBUG: bool = False):
     assignment_list = []
     if user_count == 0:
-        return list(0, 0)
-    for user in user_count:
-        index_assignment = random.randint(0, task_count)
+        assignment_list = [ 0, 0, ]
+        return assignment_list
+    for user in range(user_count):
+        index_assignment = random.randint(0,task_count)
+        if DEBUG:
+            print(f"**Assign Tasks: user={str(user)}, random_task={str(index_assignment)}")
         assignment_list.append(index_assignment)
+    if DEBUG:
+        print(f"**Assign Tasks: finalized assignment_list as {str(assignment_list)}")
     return assignment_list
 
 
@@ -26,7 +31,7 @@ def server(ip: str = 'localhost', port: int = 5557, DEBUG: bool = False):
             print(f"{svc_string}: Received request: {message}")
         user_count = int(message.split(",")[0])
         task_count = int(message.split(",")[1])
-        assignments = assign_tasks(user_count, task_count)
+        assignments = assign_tasks(user_count, task_count, DEBUG=DEBUG)
         # now make csv for ease of use
         assignments = str(assignments)[1:-1]
         assignments = assignments.replace(" ", "")
@@ -62,9 +67,16 @@ def client(send_message: str, ip: str = 'localhost', port: int = 5557, DEBUG: bo
     message = socket.recv()
     if DEBUG:
         print(f"{client_string}: Received reply: {message}")
-
+    message = str(message)
+    # format the message into an array / list
+    # start by removing bytes conversion stuffs
+    message = message[2:-1]
+    message = message.split(",")
+    if DEBUG:
+        print(f"{client_string}: formatted message into list as: {str(message)}")
     return message
 
 
 if __name__ == '__main__':
     server(DEBUG=True)
+    #client(send_message='0,0', DEBUG=True)
