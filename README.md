@@ -13,3 +13,10 @@ uses zeromq to communicate between them
 - run each file in a terminal as a microservice
 - defaults should work for all servers
 - like: `python3 ui.py`
+
+### microservice list:
++ CLI user interface
++ ICON weather forecast
++ MBLUE weather forecast
++ Person/task assignment generator
++ Inspirational quote (client only)
