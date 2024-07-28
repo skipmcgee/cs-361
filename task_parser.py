@@ -73,7 +73,7 @@ def client(send_message: str, ip: str = 'localhost', port: int = 5557, DEBUG: bo
     message = message[2:-1]
     message = message.split(",")
     if DEBUG:
-        print(f"{client_string}: formatted message into list as: {str(message)}")
+        print(f"{client_string}: formatted message into type {type(message)} as: {str(message)}")
     return message
 
 
