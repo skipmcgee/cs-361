@@ -86,7 +86,7 @@ def my_ui(lat_resp = False, long_resp = False, model_resp = False, DEBUG: bool =
         # provide and ispirational quote:
         print("Here is an inspirational quote for motivation:")
         quote = talk_to_service(send_message='Please quote me', port=5558)
-        print(str(quote.decode('utf-8')))
+        print(f'"{str(quote.decode("utf-8"))}"')
     if not lat_resp or not long_resp:
         lat_resp, long_resp = lat_long()
         if not lat_resp or not long_resp:
