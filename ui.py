@@ -120,7 +120,7 @@ def my_ui(lat_resp = False, long_resp = False, model_resp = False, DEBUG: bool =
 
 def wrapper():
     while True:
-        my_ui(False, False, False, DEBUG=True)
+        my_ui(lat_resp=False, long_resp=False, model_resp=False, DEBUG=True)
 
 
 if __name__ == '__main__':
