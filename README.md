@@ -1,7 +1,7 @@
 # cs-361
-cli client for the cs-361 class
-implements microservices
-uses zeromq to communicate between them
+- cli client for the cs-361 class
+- implements microservices
+- uses zeromq to communicate between the microservices
 
 ### setup instructions
 + `python3 -m venv venv`
