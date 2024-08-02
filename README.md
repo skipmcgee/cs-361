@@ -32,9 +32,9 @@
     2) Run the microservice locally `python3 task_parser.py` in a terminal or import the `server` method from task_parser and run it
     3) Use the client method to commmunicate with the server (in a separate terminal)
         - start the python interpreter `python3`
-        - create variable `send_message=<your team count>,<your task count>`
+        - create variable `msg=<your team count>,<your task count>`
         - `from task_parser import client`
-        - `client(send_message=send_message)`
+        - `client(send_message=msg)`
     4) You can pass an optional parameter `DEBUG=True` to the microservice and/or the client if you need to troubleshoot issues
 - Example: `client(send_message='4,12', DEBUG=True)
 
