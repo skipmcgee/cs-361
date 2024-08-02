@@ -53,5 +53,6 @@
 - CLI user interface
 - ICON weather forecast
 - MBLUE weather forecast
+- NAM weather forecast
 - Person/task assignment generator
 - Inspirational quote (client only)

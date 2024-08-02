@@ -62,7 +62,7 @@ def pick_models():
         sys.exit(0)
     if 'Q' in model_resp:
         sys.exit(0)
-    if not 'A' in model_resp and not 'B' in model_resp:
+    if not 'A' in model_resp and not 'B' in model_resp and not 'C' in model_resp:
         sys.exit(0)
 
     return model_resp
@@ -102,6 +102,8 @@ def my_ui(lat_resp = False, long_resp = False, model_resp = False, DEBUG: bool =
         print(talk_to_service(send_message=f"{lat_resp},{long_resp}", port=5556, DEBUG=DEBUG))
     elif model_resp == 'B':
         print(talk_to_service(send_message=f"{lat_resp},{long_resp}", port=5555, DEBUG=DEBUG))
+    elif model_resp == 'C':
+        print(talk_to_service(send_message=f"{lat_resp},{long_resp}", port=5559, DEBUG=DEBUG))
 
     next_resp = pick_next()
     print("UI: next response is " + next_resp)
@@ -110,12 +112,9 @@ def my_ui(lat_resp = False, long_resp = False, model_resp = False, DEBUG: bool =
             print("Change Location selected")
         my_ui(lat_resp=False, long_resp=False, model_resp=model_resp, DEBUG=DEBUG)
     elif next_resp == "B":
-        new_model = 'B'
-        if model_resp == 'B':
-            new_model = 'A'
         if DEBUG:
             print("Change Model selected")
-        my_ui(lat_resp=lat_resp, long_resp=long_resp, model_resp=new_model, DEBUG=DEBUG)
+        my_ui(lat_resp=lat_resp, long_resp=long_resp, model_resp=False, DEBUG=DEBUG)
 
 
 def wrapper():
