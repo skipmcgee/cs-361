@@ -96,6 +96,12 @@ quotes = [
     "Success is not how high you have climbed, but how you make a positive difference to the world. - Roy T. Bennett"]
 
 def server(ip: str = 'localhost', port: int = 5558, DEBUG: bool = False):
+    """
+    This is the server method for running the microservice.
+    Parameters ip (string), port (int) and DEBUG (bool)
+    Default functionality is to run over localhost port 5558
+    without debug.
+    """
     print("!! Initializing the QUOTE SERVER !!")
     context = zmq.Context()
     svc_string = "**QUOTE SERVER"
@@ -120,10 +126,16 @@ def server(ip: str = 'localhost', port: int = 5558, DEBUG: bool = False):
         socket.send(send_message)
 
 
-
+# set context in case of multiple useages
 context = zmq.Context()
-
 def client(send_message: str, ip: str = 'localhost', port: int = 5558, DEBUG: bool = False):
+    """
+    This is the client method for requesting and receiving data from the microservice.
+    Parameters send_message (string), ip (string), port (int) and DEBUG (bool)
+    Send_massage value is the only required parameter
+    Default functionality is to run over localhost port 5558
+    without debug.
+    """
     #  Socket to talk to server
     client_string = "**TASK CLIENT"
     print(f"{client_string}: Connecting to tcp://{ip}:{port}")
@@ -149,4 +161,5 @@ def client(send_message: str, ip: str = 'localhost', port: int = 5558, DEBUG: bo
 
 
 if __name__ == '__main__':
+    # for testing purposes, run the server in DEBUG
     server(DEBUG=True)
