@@ -1,7 +1,6 @@
-# Date: 07/20/2024
-# Adapted From
+# Date: 08/04/2024
 # used the code generator and their API documentation to create this code
-# Source URL: https://www.meteoblue.com/en/weather-api/index/overview
+# Source URL: https://api.windy.com/point-forecast/docs
 import pandas as pd
 import os
 from dotenv import load_dotenv, find_dotenv

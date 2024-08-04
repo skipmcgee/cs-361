@@ -10,6 +10,7 @@
 - `source venv/bin/activate` (platform dependent)
 - `python3 -m pip install -r requirements.txt`
 - (optional) add your free meteo blue token to a .env file using the variable name "meteo_blue_token"
+- (optional) add your free trial Windy token to a .env file using the variable name "nam_token"
 
 ## useage instructions
 
