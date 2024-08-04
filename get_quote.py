@@ -108,16 +108,13 @@ def server(ip: str = 'localhost', port: int = 5558, DEBUG: bool = False):
     socket = context.socket(zmq.REP)
     socket.bind(f"tcp://{ip}:{port}")
     print(f"{svc_string}: Connecting to tcp://{ip}:{port}")
-
     while True:
         # wait for request from client
         message = socket.recv().decode('utf-8')
         if DEBUG:
             print(f"{svc_string}: Received request: {message}")
-
         # select a random quote from the list
         selected_quote = random.choice(quotes)
-
         # convert the selected quote to bytes
         send_message = bytes(selected_quote, 'utf-8')
         if DEBUG:
