@@ -38,6 +38,15 @@ def greet_user():
     print(s.user_welcome)
     time.sleep(2)
 
+def check_lat(lat_to_check: float):
+    if 90 >= lat_to_check >= -90:
+        return True
+    return False
+
+def check_long(long_to_check: float):
+    if 180 >= long_to_check >= -180:
+        return True
+    return False
 
 def lat_long():
     print(s.lat_prompt)
@@ -52,7 +61,11 @@ def lat_long():
         sys.exit(0)
     if len(long_resp) == 0:
         sys.exit(0)
-    return lat_resp, long_resp
+    # check to make sure parameters are correct
+    correct_formatting = False
+    if check_lat(float(lat_resp)) and check_long(float(long_resp)):
+        correct_formatting = True
+    return correct_formatting, lat_resp, long_resp
 
 
 def pick_models():
@@ -88,7 +101,10 @@ def my_ui(lat_resp = False, long_resp = False, model_resp = False, DEBUG: bool =
         quote = talk_to_service(send_message='Please quote me', port=5558)
         print(f'"{quote}"')
     if not lat_resp or not long_resp:
-        lat_resp, long_resp = lat_long()
+        correct, lat_resp, long_resp = lat_long()
+        while not correct:
+            print("UI: lat/long entered incorectly, please try again!")
+            correct, lat_resp, long_resp = lat_long()
         if not lat_resp or not long_resp:
             print("UI: exiting early, no lat/long")
             sys.exit(0)

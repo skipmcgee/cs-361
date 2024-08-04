@@ -16,13 +16,21 @@ nam_token = os.environ.get("nam_token")
 def query_nam(query_lat, query_long, query_alt: int = 2132, DEBUG: bool = False):
     query_lat = str(query_lat).strip()
     query_long = str(query_long).strip()
+    body = {
+    "lat": query_lat,
+    "lon": query_long,
+    "model": "namConus",
+    "parameters": ["wind", "windGust", "precip", "cape", "temp", "dewpoint", "rh", "pressure"],
+    "levels": [ "surface", ],
+    "key": nam_token
+    }
     if DEBUG:
         print(f"query_nam started for lat: {query_lat}, long: {query_long}")
-    url = f"https://my.meteoblue.com/packages/basic-1h_basic-day_wind-15min_wind-1h_wind-3h_air-1h_air-3h?apikey={nam_token}&lat={query_lat}&lon={query_long}&asl={query_alt}&format=json"
+    url = f"https://api.windy.com/api/point-forecast/v2"
     if DEBUG:
         print(url)
 
-    res = requests.get(url)
+    res = requests.post(url, json=body)
 
     if DEBUG:
         print("Status code = " + str(res.status_code))
@@ -47,7 +55,7 @@ def setup_server(ip: str = 'localhost', port: int = 5559, DEBUG: bool = False):
             print(f"**NAM SERVICE: Received request: {message}")
         lat = message.split(",")[0]
         long = message.split(",")[1]
-        response, send_message = query_mblue(lat, long, DEBUG=True)
+        response, send_message = query_nam(lat, long, DEBUG=True)
         if not response:
             print("**NAM SERVICE: Error communicating to the MBLUE API")
             return
