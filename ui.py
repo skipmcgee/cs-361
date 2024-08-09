@@ -2,7 +2,6 @@
 import time
 import zmq
 from strings import Strings
-import zmq
 import sys
 
 s = Strings()
